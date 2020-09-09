@@ -1,6 +1,7 @@
 import unittest
 
 from apiserver.search import parse_query
+from apiserver.search.union import name_similarity
 
 
 class TestSearch(unittest.TestCase):
@@ -231,4 +232,28 @@ class TestSearch(unittest.TestCase):
                     },
                 },
             ],
+        )
+
+
+class TestUnion(unittest.TestCase):
+    def test_name_similarity(self):
+        self.assertAlmostEqual(
+            name_similarity("temperature", "temperature"),
+            1.0,
+            places=2,
+        )
+        self.assertAlmostEqual(
+            name_similarity("fridge temperature", "temperature"),
+            1.0,
+            places=2,
+        )
+        self.assertAlmostEqual(
+            name_similarity("avg temperature", "temperature avg"),
+            0.77,
+            places=2,
+        )
+        self.assertAlmostEqual(
+            name_similarity("avg temperature", "tempest"),
+            0.60,
+            places=2,
         )
