@@ -113,6 +113,18 @@ datamart:
             properties:
               range:
                 type: geo_shape
+      temporal_coverage:
+        type: nested
+        properties:
+          column_names:
+            type: text
+            index: false
+          column_indexes:
+            type: integer
+            index: false
+          column_types:
+            type: keyword
+            index: false
       materialize:
         properties:
           identifier:
@@ -260,6 +272,60 @@ datamart_spatial_coverage:
           max_lon:
             type: double
           min_lat:
+            type: double
+datamart_temporal_coverage:
+  settings:
+    <<: *analyzer
+  mappings:
+    properties:
+      dataset_id:
+        type: keyword
+      dataset_name:
+        type: text
+      dataset_description:
+        type: text
+      dataset_date:
+        type: date
+      dataset_filename:
+        type: text
+      dataset_license:
+        type: keyword
+      dataset_source:
+        type: keyword
+      dataset_types:
+        type: keyword
+      dataset_size:
+        type: long
+      dataset_nb_rows:
+        type: long
+      dataset_nb_profiled_rows:
+        type: long
+        index: false
+      dataset_version:
+        type: keyword
+        index: false
+      dataset_attribute_keywords:
+        type: text
+      column_names:
+        type: text
+        index: false
+      column_indexes:
+        type: integer
+        index: false
+      column_types:
+        type: keyword
+        index: false
+      ranges:
+        type: nested
+        properties:
+          range:
+            type: double_range
+          # the following is needed so we can access this information
+          #   inside the script, and this is not available for type
+          #   'double_range'
+          gte:
+            type: double
+          lte:
             type: double
 pending:
   settings:

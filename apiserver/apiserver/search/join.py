@@ -65,16 +65,18 @@ def get_column_coverage(data_profile, filter_=()):
             type_value = types.DATE_TIME
         else:
             continue
+        ranges = [
+            [
+                float(rg['range']['gte']),
+                float(rg['range']['lte']),
+            ]
+            for rg in column['coverage']
+        ]
         column_coverage[(column_index,)] = {
             'type': type_,
             'type_value': type_value,
-            'ranges': [],
+            'ranges': ranges,
         }
-        for range_ in column['coverage']:
-            column_coverage[(column_index,)]['ranges'].append([
-                float(range_['range']['gte']),
-                float(range_['range']['lte']),
-            ])
 
     if 'spatial_coverage' in data_profile:
         for spatial in data_profile['spatial_coverage']:
@@ -91,6 +93,23 @@ def get_column_coverage(data_profile, filter_=()):
             ]
             column_coverage[indexes] = {
                 'type': 'spatial',
+                'ranges': ranges,
+            }
+
+    if 'temporal_coverage' in data_profile:
+        for temporal in data_profile['temporal_coverage']:
+            indexes = tuple(temporal['column_indexes'])
+            if (
+                filter_ and
+                any(idx not in filter_ for idx in indexes)
+            ):
+                continue
+            ranges = [
+                [rg['gte'], rg['lte']]
+                for rg in spatial['ranges']
+            ]
+            column_coverage[indexes] = {
+                'type': 'temporal',
                 'ranges': ranges,
             }
 
@@ -331,6 +350,13 @@ def get_spatial_join_search_results(
     )['hits']['hits']
 
 
+def get_temporal_join_search_results(
+    es, type_, type_value, pivot_column, ranges, dataset_id=None, ignore_datasets=None,
+    query_sup_functions=None, query_sup_filters=None,
+):
+    TODO
+
+
 def get_textual_join_search_results(
     es, query_results,
     query_sup_functions=None, query_sup_filters=None,
@@ -468,6 +494,15 @@ def get_joinable_datasets(
             for result in spatial_results:
                 result['companion_column'] = column
                 search_results.append(result)
+        elif type_ == 'temporal':
+            temporal_results = get_temporal_join_search_results(
+                es,
+                coverage['ranges'],
+                dataset_id,
+                ignore_datasets,
+                query_sup_functions,
+                query_sup_filters,
+            )
         elif len(column) == 1:
             column_name = data_profile['columns'][column[0]]['name']
             numerical_results = get_numerical_join_search_results(

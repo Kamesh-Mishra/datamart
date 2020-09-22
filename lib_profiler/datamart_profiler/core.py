@@ -231,6 +231,9 @@ def process_dataset(data, dataset_id=None, metadata=None,
     columns_lat = []
     columns_long = []
 
+    # Dates
+    columns_dates = []
+
     # Textual columns
     columns_textual = []
 
@@ -655,6 +658,9 @@ def process_dataset(data, dataset_id=None, metadata=None,
             metadata['spatial_coverage'] = spatial_coverage
             if types.DATASET_SPATIAL not in dataset_types:
                 dataset_types.add(types.DATASET_SPATIAL)
+
+        # Compute ranges for dates
+
 
     # Attribute names
     attribute_keywords = []
