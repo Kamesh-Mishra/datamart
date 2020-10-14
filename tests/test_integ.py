@@ -298,7 +298,7 @@ class TestProfileQuery(DatamartTest):
         self.check_result(
             response,
             basic_metadata,
-            'cac18c69aff995773bed73273421365006e5e0b6',
+            'd99a8e42e65fb84e2ad800be35a8834b30828227',
         )
 
     def test_excel(self):
@@ -656,9 +656,9 @@ class TestDataSearch(DatamartTest):
                     'score': lambda n: isinstance(n, float) and n > 0.0,
                     'augmentation': {
                         'left_columns': [[0]],
-                        'left_columns_names': [['home_address']],
+                        'left_columns_names': [['favorite']],
                         'right_columns': [[0]],
-                        'right_columns_names': [['state']],
+                        'right_columns_names': [['dessert']],
                         'type': 'join'
                     },
                     'supplied_id': None,
@@ -1240,13 +1240,13 @@ class TestAugment(DatamartTest):
         with zip_.open('tables/learningData.csv') as table:
             self.assertCsvEqualNoOrder(
                 table.read().decode('utf-8'),
-                'number,desk_faces,name,country,what',
+                'number,desk_faces,name,color,what',
                 [
-                    '5,west,james,canada,False',
-                    '4,south,john,usa,False',
-                    '7,west,michael,usa,True',
-                    '6,east,robert,usa,False',
-                    '11,,christopher,canada,True',
+                    '5,west,james,green,False',
+                    '4,south,john,blue,False',
+                    '7,west,michael,blue,True',
+                    '6,east,robert,blue,False',
+                    '11,,christopher,green,True',
                 ],
             )
         with zip_.open('datasetDoc.json') as meta_fp:
@@ -1255,7 +1255,7 @@ class TestAugment(DatamartTest):
                 meta,
                 {
                     'about': {
-                        'approximateSize': '167 B',
+                        'approximateSize': '166 B',
                         'datasetID': lambda s: len(s) == 32,
                         'datasetName': lambda s: len(s) == 32,
                         'datasetSchemaVersion': '4.0.0',
@@ -1286,7 +1286,7 @@ class TestAugment(DatamartTest):
                                 },
                                 {
                                     'colIndex': 3,
-                                    'colName': 'country',
+                                    'colName': 'color',
                                     'colType': 'categorical',
                                     'role': ['attribute'],
                                 },
@@ -1311,7 +1311,7 @@ class TestAugment(DatamartTest):
                                 'augmentation_type': 'join',
                                 'nb_rows_after': 5,
                                 'nb_rows_before': 5,
-                                'new_columns': ['name', 'country', 'what'],
+                                'new_columns': ['name', 'color', 'what'],
                                 'removed_columns': [],
                             },
                             'qualValueType': 'dict',
@@ -1623,7 +1623,7 @@ class TestAugment(DatamartTest):
             'score': 1.0,
             'augmentation': {
                 'left_columns': [[0]],
-                'left_columns_names': [['home_address']],
+                'left_columns_names': [['favorite']],
                 'right_columns': [[0]],
                 'right_columns_names': [['state']],
                 'type': 'join'
@@ -1653,34 +1653,34 @@ class TestAugment(DatamartTest):
         with zip_.open('tables/learningData.csv') as table:
             self.assertCsvEqualNoOrder(
                 table.read().decode('utf-8'),
-                'home_address,mean year,sum year,max year,min year',
+                'favorite,mean year,sum year,max year,min year',
                 [
-                    'AZ,1990.0,1990.0,1990.0,1990.0',
-                    'Pa,1990.0,1990.0,1990.0,1990.0',
-                    'sd,,,,',
-                    'nj,1990.0,1990.0,1990.0,1990.0',
-                    'NH,,,,',
-                    'TX,1990.0,1990.0,1990.0,1990.0',
-                    'mS,1990.0,1990.0,1990.0,1990.0',
-                    'Tn,1990.0,1990.0,1990.0,1990.0',
-                    'WA,1990.0,1990.0,1990.0,1990.0',
-                    'va,1990.0,1990.0,1990.0,1990.0',
-                    'NY,1990.0,1990.0,1990.0,1990.0',
-                    'oh,1990.0,1990.0,1990.0,1990.0',
-                    'or,1990.0,1990.0,1990.0,1990.0',
-                    'IL,1990.0,1990.0,1990.0,1990.0',
-                    'MT,,,,',
-                    'hi,,,,',
-                    'Ca,1990.0,1990.0,1990.0,1990.0',
-                    'nC,1990.0,1990.0,1990.0,1990.0',
-                    'Ut,1991.0,1991.0,1991.0,1991.0',
-                    'sC,1991.0,1991.0,1991.0,1991.0',
-                    'La,1990.0,1990.0,1990.0,1990.0',
-                    'ME,1990.0,1990.0,1990.0,1990.0',
-                    'MI,1990.0,1990.0,1990.0,1990.0',
-                    'nE,1990.0,1990.0,1990.0,1990.0',
-                    'In,1990.0,1990.0,1990.0,1990.0',
-                    'ND,1990.0,1990.0,1990.0,1990.0',
+                    'Peanut Butter,1990.0,1990.0,1990.0,1990.0',
+                    'Ice cream,1990.0,1990.0,1990.0,1990.0',
+                    'flan,,,,',
+                    'orange,1990.0,1990.0,1990.0,1990.0',
+                    'kiwi,,,,',
+                    'coconut,1990.0,1990.0,1990.0,1990.0',
+                    'liquorICE,1990.0,1990.0,1990.0,1990.0',
+                    'MACaron,1990.0,1990.0,1990.0,1990.0',
+                    'pear,1990.0,1990.0,1990.0,1990.0',
+                    'CANDY,1990.0,1990.0,1990.0,1990.0',
+                    'pudding,1990.0,1990.0,1990.0,1990.0',
+                    'doughnut,1990.0,1990.0,1990.0,1990.0',
+                    'marzipan,1990.0,1990.0,1990.0,1990.0',
+                    'tart,1990.0,1990.0,1990.0,1990.0',
+                    'pecan pie,,,,',
+                    'souffle,,,,',
+                    'Pastry,1990.0,1990.0,1990.0,1990.0',
+                    'banana,1990.0,1990.0,1990.0,1990.0',
+                    'caramel,1991.0,1991.0,1991.0,1991.0',
+                    'milkshake,1991.0,1991.0,1991.0,1991.0',
+                    'Chocolate,1990.0,1990.0,1990.0,1990.0',
+                    'tiramisu,1990.0,1990.0,1990.0,1990.0',
+                    'tres leches,1990.0,1990.0,1990.0,1990.0',
+                    'calisson,1990.0,1990.0,1990.0,1990.0',
+                    'taffy,1990.0,1990.0,1990.0,1990.0',
+                    'lemon,1990.0,1990.0,1990.0,1990.0',
                 ],
             )
         with zip_.open('datasetDoc.json') as meta_fp:
@@ -1689,7 +1689,7 @@ class TestAugment(DatamartTest):
                 meta,
                 {
                     'about': {
-                        'approximateSize': '787 B',
+                        'approximateSize': '916 B',
                         'datasetID': lambda s: len(s) == 32,
                         'datasetName': lambda s: len(s) == 32,
                         'datasetSchemaVersion': '4.0.0',
@@ -1702,7 +1702,7 @@ class TestAugment(DatamartTest):
                             'columns': [
                                 {
                                     'colIndex': 0,
-                                    'colName': 'home_address',
+                                    'colName': 'favorite',
                                     'colType': 'string',
                                     'role': ['attribute'],
                                 },
@@ -2144,11 +2144,11 @@ class TestAugment(DatamartTest):
                 table.read().decode('utf-8'),
                 'orig_date,color,rain',
                 [
-                    '2019-06-13T01:00:00,blue,no',
-                    '2019-06-13T02:00:00,blue,no',
-                    '2019-06-13T03:00:00,green,no',
-                    '2019-06-13T04:00:00,green,yes',
-                    '2019-06-13T05:00:00,blue,no',
+                    '2019-06-13T01:00:00,yellow,no',
+                    '2019-06-13T02:00:00,yellow,no',
+                    '2019-06-13T03:00:00,brown,no',
+                    '2019-06-13T04:00:00,brown,yes',
+                    '2019-06-13T05:00:00,yellow,no',
                 ],
             )
 
@@ -2198,8 +2198,8 @@ class TestAugment(DatamartTest):
                 table.read().decode('utf-8'),
                 'orig_date,color,rain',
                 [
-                    '2019-06-12,blue,no',
-                    '2019-06-13,green,no',
+                    '2019-06-12,pink,no',
+                    '2019-06-13,grey,no',
                 ],
             )
 
@@ -2867,7 +2867,7 @@ basic_metadata_d3m = lambda v: {
         'datasetName': 'basic',
         'description': 'This is a very simple CSV with people',
         'license': 'unknown',
-        'approximateSize': '425 B',
+        'approximateSize': '427 B',
         'datasetSchemaVersion': v,
         'redacted': False,
         'datasetVersion': '1.0',
@@ -2889,7 +2889,7 @@ basic_metadata_d3m = lambda v: {
                 },
                 {
                     'colIndex': 1,
-                    'colName': 'country',
+                    'colName': 'color',
                     'colType': 'categorical',
                     'role': ['attribute'],
                 },
