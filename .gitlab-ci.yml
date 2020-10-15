@@ -19,6 +19,7 @@ test:
     # so exposed ports are at 'docker' not 'localhost', and
     # Docker containers can't reach the local runner!
   script:
+    - curl -Lo lib_geo/data/data.sqlite3 https://tanis.remram.fr/datamart-geo-data.sqlite3
     - diff -u lib_core/datamart_core/types.py lib_profiler/datamart_profiler/types.py
     - diff -u lib_core/datamart_core/types.py lib_materialize/datamart_materialize/types.py
     - /root/.poetry/bin/poetry install
